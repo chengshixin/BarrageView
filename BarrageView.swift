@@ -25,6 +25,9 @@ class BarrageView: UIView {
     private var textColor: UIColor = .white
     private var textBackgroundColor: UIColor = UIColor.black.withAlphaComponent(0.6)
     private var speed: CGFloat = 50.0
+    private var labelBorderColor: UIColor = .clear
+    private var labelBorderWidth: CGFloat = 0.0
+    private var labelCornerRadius: CGFloat = 12.0
     
     private(set) var isPlaying = false
     private var currentIndex = 0
@@ -128,6 +131,21 @@ class BarrageView: UIView {
     /// 设置文字背景颜色
     func setTextBackgroundColor(_ color: UIColor) {
         self.textBackgroundColor = color
+    }
+    
+    /// 设置label边框颜色
+    func setLabelBorderColor(_ color: UIColor) {
+        self.labelBorderColor = color
+    }
+    
+    /// 设置label边框宽度
+    func setLabelBorderWidth(_ width: CGFloat) {
+        self.labelBorderWidth = max(width, 0.0)
+    }
+    
+    /// 设置label圆角半径
+    func setLabelCornerRadius(_ radius: CGFloat) {
+        self.labelCornerRadius = max(radius, 0.0)
     }
     
     /// 开始播放弹幕
@@ -239,25 +257,39 @@ class BarrageView: UIView {
         label.font = UIFont.systemFont(ofSize: fontSize)
         label.textColor = textColor
         label.backgroundColor = textBackgroundColor
-        label.layer.cornerRadius = 12
+        label.layer.cornerRadius = labelCornerRadius
         label.layer.masksToBounds = true
         label.textAlignment = .center
         
-        // 计算标签大小
-        let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: 30)
+        // 设置边框颜色和宽度
+        label.layer.borderColor = labelBorderColor.cgColor
+        label.layer.borderWidth = labelBorderWidth
+        
+        // 根据内容和圆角半径动态计算标签大小
+        let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
         let expectedSize = text.boundingRect(with: maxSize,
                                              options: .usesLineFragmentOrigin,
                                              attributes: [.font: label.font!],
                                              context: nil)
         
-        let labelWidth = min(expectedSize.width + 24, self.bounds.width * 0.8)
-        label.frame.size = CGSize(width: labelWidth, height: 24)
+        // 基础内边距
+        let horizontalPadding: CGFloat = 16
+        let verticalPadding: CGFloat = 4
+        
+        // 计算最小尺寸（考虑圆角半径）
+        let minHeight = max(fontSize + verticalPadding * 2, labelCornerRadius * 2 + 4)
+        let minWidth = max(expectedSize.width + horizontalPadding * 2, labelCornerRadius * 2 + 4)
+        
+        // 计算最终尺寸
+        let labelWidth = min(minWidth, self.bounds.width * 0.8)
+        let labelHeight = minHeight
+        
+        label.frame.size = CGSize(width: labelWidth, height: labelHeight)
         
         return label
     }
     
-    private func calculateRandomYPosition() -> CGFloat {
-        let labelHeight: CGFloat = 24
+    private func calculateRandomYPosition(labelHeight: CGFloat) -> CGFloat {
         let spacing: CGFloat = 10
         let maxY = self.bounds.height - labelHeight - spacing
         
@@ -297,14 +329,14 @@ class BarrageView: UIView {
         switch direction {
         case .rightToLeft:
             // 水平从右到左：随机Y，固定X起点和终点
-            let randomY = calculateRandomYPosition()
+            let randomY = calculateRandomYPosition(labelHeight: labelHeight)
             let startPoint = CGPoint(x: self.bounds.width, y: randomY)
             let endPoint = CGPoint(x: -labelWidth, y: randomY)
             return (startPoint, endPoint)
             
         case .leftToRight:
             // 水平从左到右：随机Y，固定X起点和终点
-            let randomY = calculateRandomYPosition()
+            let randomY = calculateRandomYPosition(labelHeight: labelHeight)
             let startPoint = CGPoint(x: -labelWidth, y: randomY)
             let endPoint = CGPoint(x: self.bounds.width, y: randomY)
             return (startPoint, endPoint)
@@ -350,9 +382,6 @@ class BarrageView: UIView {
         }
         return false
     }
-    
-    
-    
     
     private func startAnimation(for label: UILabel, from startPoint: CGPoint, to endPoint: CGPoint) {
         let distance = sqrt(pow(endPoint.x - startPoint.x, 2) + pow(endPoint.y - startPoint.y, 2))
