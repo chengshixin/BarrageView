@@ -16,6 +16,7 @@
 - **文字颜色**：支持自定义文字颜色
 - **背景颜色**：支持自定义文字背景颜色和透明度
 - **圆角设计**：弹幕标签采用圆角设计
+- **边框样式**：支持自定义边框颜色和宽度
 
 ### 🚀 高级特性
 - **动画平滑**：基于Core Animation的流畅动画
@@ -51,13 +52,18 @@ barrageView.setDirection(.rightToLeft)  // 可选：.leftToRight, .topToBottom, 
 // 设置播放模式（默认：循环）
 barrageView.setPlayMode(.loop)  // 可选：.single
 
-// 设置速度（像素/秒，默认：120）
+// 设置速度（像素/秒，默认：50）
 barrageView.setSpeed(150.0)
 
 // 设置样式
 barrageView.setFontSize(18)
 barrageView.setTextColor(.white)
 barrageView.setTextBackgroundColor(UIColor.black.withAlphaComponent(0.7))
+
+// 设置边框样式（新增）
+barrageView.setLabelBorderColor(.systemBlue)
+barrageView.setLabelBorderWidth(2.0)
+barrageView.setLabelCornerRadius(15.0)
 
 // 设置动画时长（默认：10秒）
 barrageView.setAnimationDuration(8.0)
@@ -92,6 +98,9 @@ barrageView.stopBarrage()
 | `setFontSize(_:)` | 设置字体大小 | `CGFloat` |
 | `setTextColor(_:)` | 设置文字颜色 | `UIColor` |
 | `setTextBackgroundColor(_:)` | 设置背景颜色 | `UIColor` |
+| `setLabelBorderColor(_:)` | 设置边框颜色（新增） | `UIColor` |
+| `setLabelBorderWidth(_:)` | 设置边框宽度（新增） | `CGFloat` |
+| `setLabelCornerRadius(_:)` | 设置圆角半径（新增） | `CGFloat` |
 | `setAnimationDuration(_:)` | 设置动画时长 | `TimeInterval` |
 | `startBarrage()` | 开始播放弹幕 | - |
 | `stopBarrage()` | 停止播放弹幕 | - |
@@ -147,6 +156,8 @@ view.addSubview(testView)
 - **内存管理**：及时释放不再使用的对象
 - **主线程优化**：确保UI操作在主线程执行
 - **动画暂停/恢复**：支持应用生命周期管理
+- **实时速度更新**：动态调整现有弹幕速度，无需重启
+- **智能位置计算**：避免弹幕重叠的高效算法
 
 ## 兼容性
 
@@ -158,7 +169,7 @@ view.addSubview(testView)
 ## 依赖
 
 - **系统框架**：UIKit、Foundation
-- **第三方库**：无依赖（纯原生实现）
+- **第三方库**：SnapKit（仅测试Demo使用，核心组件无依赖）
 
 ## 许可证
 
@@ -172,6 +183,3 @@ MIT License - 详见LICENSE文件
 
 如有问题或建议，请通过GitHub Issues联系。
 
----
-
-**⭐ 如果这个项目对你有帮助，请给个Star支持一下！**
