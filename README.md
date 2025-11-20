@@ -16,7 +16,6 @@
 - **文字颜色**：支持自定义文字颜色
 - **背景颜色**：支持自定义文字背景颜色和透明度
 - **圆角设计**：弹幕标签采用圆角设计
-- **边框样式**：支持自定义边框颜色和宽度
 
 ### 🚀 高级特性
 - **动画平滑**：基于Core Animation的流畅动画
@@ -52,18 +51,13 @@ barrageView.setDirection(.rightToLeft)  // 可选：.leftToRight, .topToBottom, 
 // 设置播放模式（默认：循环）
 barrageView.setPlayMode(.loop)  // 可选：.single
 
-// 设置速度（像素/秒，默认：50）
+// 设置速度（像素/秒，默认：120）
 barrageView.setSpeed(150.0)
 
 // 设置样式
 barrageView.setFontSize(18)
 barrageView.setTextColor(.white)
 barrageView.setTextBackgroundColor(UIColor.black.withAlphaComponent(0.7))
-
-// 设置边框样式（新增）
-barrageView.setLabelBorderColor(.systemBlue)
-barrageView.setLabelBorderWidth(2.0)
-barrageView.setLabelCornerRadius(15.0)
 
 // 设置动画时长（默认：10秒）
 barrageView.setAnimationDuration(8.0)
@@ -98,9 +92,6 @@ barrageView.stopBarrage()
 | `setFontSize(_:)` | 设置字体大小 | `CGFloat` |
 | `setTextColor(_:)` | 设置文字颜色 | `UIColor` |
 | `setTextBackgroundColor(_:)` | 设置背景颜色 | `UIColor` |
-| `setLabelBorderColor(_:)` | 设置边框颜色（新增） | `UIColor` |
-| `setLabelBorderWidth(_:)` | 设置边框宽度（新增） | `CGFloat` |
-| `setLabelCornerRadius(_:)` | 设置圆角半径（新增） | `CGFloat` |
 | `setAnimationDuration(_:)` | 设置动画时长 | `TimeInterval` |
 | `startBarrage()` | 开始播放弹幕 | - |
 | `stopBarrage()` | 停止播放弹幕 | - |
@@ -156,8 +147,6 @@ view.addSubview(testView)
 - **内存管理**：及时释放不再使用的对象
 - **主线程优化**：确保UI操作在主线程执行
 - **动画暂停/恢复**：支持应用生命周期管理
-- **实时速度更新**：动态调整现有弹幕速度，无需重启
-- **智能位置计算**：避免弹幕重叠的高效算法
 
 ## 兼容性
 
@@ -169,15 +158,7 @@ view.addSubview(testView)
 ## 依赖
 
 - **系统框架**：UIKit、Foundation
-- **第三方库**：SnapKit（仅测试Demo使用，核心组件无依赖）
-
-## 注意事项
-
-- **速度设置**：`setSpeed(_:)` 方法设置的是实际的像素/秒速度值，范围建议为50-250像素/秒
-- **实时速度调整**：在弹幕播放过程中调用 `setSpeed(_:)` 会立即影响所有现有弹幕的移动速度
-- **边框设置**：边框宽度和圆角半径的最小值为0，设置前请确保数值合理性
-- **定时器间隔**：弹幕生成间隔为2秒（固定值）
-- **性能建议**：建议弹幕数量控制在合理范围内，避免过多同时显示的弹幕影响性能
+- **第三方库**：无依赖（纯原生实现）
 
 ## 许可证
 
@@ -193,32 +174,4 @@ MIT License - 详见LICENSE文件
 
 ---
 
-## 更新日志
-
-### v1.1.0 (最新版本)
-- ✅ **新增边框样式支持**：可自定义边框颜色和宽度
-- ✅ **增强圆角控制**：独立的圆角半径设置
-- ✅ **实时速度调整**：播放过程中可动态调整弹幕速度
-- ✅ **改进防重叠算法**：支持多方向的智能位置计算
-- ✅ **优化动画管理**：更好的暂停、恢复和速度更新机制
-- ✅ **增强测试界面**：速度滑块显示实际像素/秒数值
-
-### v1.0.0
-- ✅ 基础弹幕功能
-- ✅ 多方向支持
-- ✅ 播放模式切换
-- ✅ 基础样式自定义
-- ✅ 暂停/继续功能
-- ✅ 防重叠机制
-
----
-
 **⭐ 如果这个项目对你有帮助，请给个Star支持一下！**
-
-### v1.0.0
-- ✅ 基础弹幕功能
-- ✅ 多方向支持
-- ✅ 播放模式切换
-- ✅ 基础样式自定义
-- ✅ 暂停/继续功能
-- ✅ 防重叠机制
