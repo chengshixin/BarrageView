@@ -293,6 +293,12 @@ class BarrageView: UIView {
         let spacing: CGFloat = 10
         let maxY = self.bounds.height - labelHeight - spacing
         
+        // 安全校验：检查视图高度是否有效以及maxY是否小于spacing
+        if self.bounds.height <= 0 || maxY <= spacing {
+            // 返回一个安全的默认Y位置
+            return spacing
+        }
+        
         // 生成随机Y位置，避免与现有标签重叠
         var attempts = 0
         var randomY: CGFloat = 0
@@ -308,6 +314,12 @@ class BarrageView: UIView {
     private func calculateRandomXPosition(labelWidth: CGFloat) -> CGFloat {
         let spacing: CGFloat = 10
         let maxX = self.bounds.width - labelWidth - spacing
+        
+        // 安全校验：检查视图宽度是否有效以及maxX是否小于spacing
+        if self.bounds.width <= 0 || maxX <= spacing {
+            // 返回一个安全的默认X位置
+            return spacing
+        }
         
         // 生成随机X位置，避免与现有标签重叠
         var attempts = 0
